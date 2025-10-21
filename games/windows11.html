@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Windows 11 — Embedded</title>
+  <style>
+    /* Fullscreen, no scroll, clean background */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #0b0b0b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* make iframe cover the whole viewport */
+    .full-iframe {
+      position: fixed;
+      inset: 0;               /* top:0; right:0; bottom:0; left:0; */
+      width: 100vw;
+      height: 100vh;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    /* optional: a tiny loader while iframe is loading */
+    .loader {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      color: #9fbfff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      font-size: 14px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader" id="loader">loading…</div>
+
+  <iframe
+    class="full-iframe"
+    id="embeddedApp"
+    src="https://complexarcade.xyz/apps/storage/windows-11/index1.html"
+    title="Embedded App"
+    allow="autoplay; clipboard-write; fullscreen; camera; microphone; geolocation; accelerometer; gyroscope; encrypted-media"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+    loading="eager">
+  </iframe>
+
+  <script>
+    // hide loader once iframe is reachable (best-effort)
+    const iframe = document.getElementById('embeddedApp');
+    const loader = document.getElementById('loader');
+
+    // remove loader after iframe loads or after 6s fallback
+    iframe.addEventListener('load', () => loader.style.display = 'none');
+    setTimeout(() => { if (loader) loader.style.display = 'none'; }, 6000);
+  </script>
+</body>
+</html>
